@@ -1,0 +1,272 @@
+m255
+K3
+13
+cModel Technology
+Z0 dD:\CA_CA\CAD\trunk_ca5\sim
+vcounter
+Z1 IkafbAEUzLCYB?o7I?=Uk`3
+Z2 VNKdKiBgoRa@^O=IAz=9[N0
+Z3 dD:\CA_CA\CAD\trunk_ca5\sim
+Z4 w1540458456
+Z5 8EmulatorModule/VGA_Emulator.v
+Z6 FEmulatorModule/VGA_Emulator.v
+Z7 L0 188
+Z8 OV;L;10.1d;51
+r1
+31
+Z9 !s108 1545281599.455000
+Z10 !s107 EmulatorModule/VGA_Emulator.v|
+Z11 !s90 -reportprogress|300|+acc|-incr|-source|+define+SIM|EmulatorModule/VGA_Emulator.v|
+Z12 o+acc -source -O0
+Z13 !s92 +acc -source +define+SIM -O0
+!i10b 1
+Z14 !s100 3lR:e1ik:L^N9ZlNBH59L2
+!s85 0
+!s101 -O0
+vdecompressor_top
+Z15 DXx6 sv_std 3 std 0 22 F[19LRNL:5;XmIFh[XOPn1
+Z16 IUX55S`=aH=WVWj1b:[<Ye3
+Z17 V7lcLMeie<:65iPz@cH>R13
+S1
+R3
+Z18 w1544815953
+Z19 8../src/hdl/decompressor_top.v
+Z20 F../src/hdl/decompressor_top.v
+L0 2
+R8
+r1
+31
+Z21 !s108 1545281598.236000
+Z22 !s107 ../src/hdl/yuv_to_rgb_datapath.v|../src/hdl/yuv_to_rgb_conversion.v|../src/hdl/yuv_to_rgb_controller.v|../src/hdl/upsampling_top.v|../src/hdl/upsampling_datapath.v|../src/hdl/upsampling_controller.v|../src/hdl/sram_vga_controller.v|../src/hdl/decompressor_top.v|
+Z23 !s90 -reportprogress|300|-sv|+acc|-incr|-source|+define+SIM|../src/hdl/decompressor_top.v|../src/hdl/sram_vga_controller.v|../src/hdl/upsampling_controller.v|../src/hdl/upsampling_datapath.v|../src/hdl/upsampling_top.v|../src/hdl/yuv_to_rgb_controller.v|../src/hdl/yuv_to_rgb_conversion.v|../src/hdl/yuv_to_rgb_datapath.v|
+Z24 o-sv +acc -source -O0
+Z25 !s92 -sv +acc -source +define+SIM -O0
+Z26 !s100 b6?VQD[]jkF:;[R``;0eM3
+Z27 !s105 decompressor_top_v_unit
+!i10b 1
+!s85 0
+!s101 -O0
+vSRAM_Emulator
+Z28 IWFmcPK]bX2FD[0eKkNTXZ1
+Z29 VYU7UF5EX<fOH@991Jd=:o0
+R3
+Z30 w1542892620
+Z31 8EmulatorModule/SRAM_Emulator.v
+Z32 FEmulatorModule/SRAM_Emulator.v
+L0 2
+R8
+r1
+31
+R12
+Z33 n@s@r@a@m_@emulator
+Z34 !s100 92VzzCJeFeRbY^@1XV8DK2
+Z35 !s108 1545281599.180000
+Z36 !s107 EmulatorModule/SRAM_Emulator.v|
+Z37 !s90 -reportprogress|300|+acc|-incr|-source|+define+SIM|EmulatorModule/SRAM_Emulator.v|
+R13
+!i10b 1
+!s85 0
+!s101 -O0
+vsram_vga_controller
+R15
+Z38 IO;ez=FkA2MlU>fJiShK>52
+Z39 V>md6JoV`iTIIg23`@W2IL0
+S1
+R3
+Z40 w1544107582
+Z41 8../src/hdl/sram_vga_controller.v
+Z42 F../src/hdl/sram_vga_controller.v
+L0 1
+R8
+r1
+31
+R21
+R22
+R23
+R24
+R25
+Z43 !s100 lCPnc2_]=ZBKX0Gg7SM7e2
+Z44 !s105 sram_vga_controller_v_unit
+!i10b 1
+!s85 0
+!s101 -O0
+vtb_top
+!i10b 1
+!s100 A?fEk8_;4cja7NzfE??^M3
+I>O:ToXW36S;IG=Sm4OVBd3
+VblV]La9_`]]S7^?PmPCRM2
+R3
+w1544816946
+8./tb/tb_top.v
+F./tb/tb_top.v
+F../src/inc/param.v
+L0 2
+R8
+r1
+!s85 0
+31
+!s108 1545281599.796000
+!s107 ../src/inc/param.v|./tb/tb_top.v|
+!s90 -reportprogress|300|+acc|-incr|-source|+incdir+../src/inc|+define+SIM|./tb/tb_top.v|
+!s101 -O0
+R12
+!s92 +acc -source +incdir+../src/inc +define+SIM -O0
+vupsampling_controller
+R15
+Z45 I^MN69X72l;]Ag]UJ@j1f]1
+Z46 V62B8o62c<ORBe?ko2i3Kc2
+S1
+R3
+Z47 w1544759964
+Z48 8../src/hdl/upsampling_controller.v
+Z49 F../src/hdl/upsampling_controller.v
+L0 1
+R8
+r1
+31
+R21
+R22
+R23
+R24
+R25
+Z50 !s100 0G50`I361l:z^_o2S^@L=2
+Z51 !s105 upsampling_controller_v_unit
+!i10b 1
+!s85 0
+!s101 -O0
+vupsampling_datapath
+R15
+Z52 Ib2fi]1EFfj]]`NbZVoBgQ3
+Z53 V07o]hZbkUc;BbYig0o:Kb3
+S1
+R3
+Z54 w1544799494
+Z55 8../src/hdl/upsampling_datapath.v
+Z56 F../src/hdl/upsampling_datapath.v
+L0 1
+R8
+r1
+31
+R21
+R22
+R23
+R24
+R25
+Z57 !s100 NbJ`E0TIzo1>3d1_=?DJb0
+Z58 !s105 upsampling_datapath_v_unit
+!i10b 1
+!s85 0
+!s101 -O0
+vupsampling_top
+R15
+Z59 ImiA@DSB[_2C83G[S8Z:lI3
+Z60 Ve=?dMcAgegi>HFbTCKa]I1
+S1
+R3
+Z61 w1544797896
+Z62 8../src/hdl/upsampling_top.v
+Z63 F../src/hdl/upsampling_top.v
+L0 2
+R8
+r1
+31
+R21
+R22
+R23
+R24
+R25
+Z64 !s100 MkNK4S6n<a5LUJjLSeNOM0
+Z65 !s105 upsampling_top_v_unit
+!i10b 1
+!s85 0
+!s101 -O0
+vVGA_Emulator
+Z66 IPD`mi@@B`G6DGO=K:zBlf0
+Z67 Vfh=0`gBJm@k737V0Ein>D2
+R3
+R4
+R5
+R6
+L0 2
+R8
+r1
+31
+R9
+R10
+R11
+R12
+R13
+Z68 n@v@g@a_@emulator
+!i10b 1
+Z69 !s100 GTdUYl04Xl<n@d>3XUCfF1
+!s85 0
+!s101 -O0
+vyuv_to_rgb_controller
+R15
+Z70 I5c3[_Fm7hR66=C3M]JQmj2
+Z71 V3^]LMR0EZhoSYYIO2klc]3
+S1
+R3
+Z72 w1544106742
+Z73 8../src/hdl/yuv_to_rgb_controller.v
+Z74 F../src/hdl/yuv_to_rgb_controller.v
+L0 2
+R8
+r1
+31
+R21
+R22
+R23
+R24
+R25
+Z75 !s100 oZ_WKk]FMHDm[R[6AhObc0
+Z76 !s105 yuv_to_rgb_controller_v_unit
+!i10b 1
+!s85 0
+!s101 -O0
+vyuv_to_rgb_conversion
+R15
+Z77 I[7NNheRS@00IkU4Bb:MR_2
+Z78 V_c:RWeAz9eZ?kc:?E3BCC3
+S1
+R3
+Z79 w1543496994
+Z80 8../src/hdl/yuv_to_rgb_conversion.v
+Z81 F../src/hdl/yuv_to_rgb_conversion.v
+L0 2
+R8
+r1
+31
+R21
+R22
+R23
+R24
+R25
+Z82 !s100 SM1b13o6aAY`fh5k3L]>52
+Z83 !s105 yuv_to_rgb_conversion_v_unit
+!i10b 1
+!s85 0
+!s101 -O0
+vyuv_to_rgb_datapath
+R15
+Z84 I2M[;nn1`M]IoddQ[BRn1>3
+Z85 VIlo7[m8FZ`ek2=_WNYi993
+S1
+R3
+Z86 w1543505620
+Z87 8../src/hdl/yuv_to_rgb_datapath.v
+Z88 F../src/hdl/yuv_to_rgb_datapath.v
+L0 3
+R8
+r1
+31
+R21
+R22
+R23
+R24
+R25
+Z89 !s100 A7lM8=@PfQaggRT>EAWZ70
+Z90 !s105 yuv_to_rgb_datapath_v_unit
+!i10b 1
+!s85 0
+!s101 -O0
