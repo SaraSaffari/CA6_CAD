@@ -1,10 +1,11 @@
 module DP(
-	clk, rst, en_i, en_j, Wen_temp, Smux1, Smux2, out_mem64, out_i, out_j);
+	clk, start, out_mem64, out_i, out_j);
 
-	input clk, rst, en_i, en_j, Wen_temp, Smux1, Smux2;
-	input[15:0] out_mem64;
+	input wire clk, start;
+	reg en_i, en_j, Wen_temp, Smux1, Smux2, rst;
+	input wire [15:0] out_mem64;
 
-	output [2:0] out_i, out_j;
+	output reg [2:0] out_i, out_j;
 
 	wire[63:0] out_temp, outMux1, outMux2, out_C, out_C_prime, result;
 	wire[7:0] resMult0, resMult1, resMult2, resMult3, resMult4, resMult5, resMult6, resMult7;
@@ -65,5 +66,47 @@ module DP(
 	assign resMult7 = outMux1[63:56] * outMux2[63:56];
 
 	assign result = resMult7+ resMult6+ resMult5+ resMult4+ resMult3+ resMult2+ resMult1+ resMult0;
+
+
+
+//controller 
+	parameter [1:0] IDLE = 2'd0, START = 2'd1, S1 = 2'd2, S2 = 2'd3;
+	reg [1:0] ps, ns = 2'd0;
+	reg Wen_32, done, start_p1, start_p3;
+
+	always @(ps) begin
+		
+		{Smux1, Smux2, en_i, en_j, Wen_temp, Wen_32} = 10'd0;
+
+		case(ps)
+			IDLE: rst = 1'b1;
+			START: begin end
+			S1:	begin Smux1 = 1'b0; Smux2 = 1'b0; en_j = 1'b1;  
+				if(out_j == 3'd7) en_i = 1'b1;
+				Wen_temp = 1'b1;
+			end
+			S2: begin Smux1 = 1'b1; Smux2 = 1'b1; en_j = 1'b1; 
+				if(out_j == 3'd7) en_i = 1'b1; 
+				Wen_32 = 1'b1;
+			end
+		endcase
+	end
+
+	always @(ps) begin
+
+		case(ps)
+			IDLE :ns = START;
+			START:if(start) ns = S1; 
+				  else ns = START;
+			S1   :if(out_i != 3'd7 || out_j != 3'd7) ns = S1; 
+				  else ns = S2;
+			S2   :if(out_i != 3'd7 || out_j != 3'd7) ns = S2; 
+				  else begin done = 1; start_p1 = 1'b1; start_p3 = 1'b1; ns = START; end
+		endcase
+	end
+
+	always @(posedge clk) begin
+		ps <= ns;
+	end
 
 endmodule

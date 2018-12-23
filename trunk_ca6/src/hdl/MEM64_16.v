@@ -54,20 +54,22 @@ always @(ps) begin
 	{ienb, jenb, sram_count_enb, done} = 20'd0;
 
 	case(ps)
-		IDLE: begin end
+		IDLE: reset = 1'b1;
 		START: begin end
-		S1:	sram_count_enb = 1;
-		S2: begin sram_count_enb = 1; mem64_enb = 1; jenb = 1; if (sram_counter[2:0] == 3'd0) ienb = 1'b1; end
+		S1:	sram_count_enb = 1'b1;
+		S2: begin sram_count_enb = 1'b1; mem64_enb = 1'b1; jenb = 1'b1; if (sram_counter[2:0] == 3'd0) ienb = 1'b1; end
 	endcase
 end
 
 always @(ps) begin
 
 	case(ps)
-		IDLE: ns = START;
-		START: if(start) ns = S1; else ns = START;
-		S1:	ns = S2;
-		S2:	if (sram_counter[5:0] == 6'd0) begin done = 1; ns = START; end else ns = S2;
+		IDLE :ns = START;
+		START:if(start) ns = S1; 
+			  else ns = START;
+		S1   :ns = S2;
+		S2   :if (sram_counter[5:0] == 6'd0) begin done = 1'b1; ns = START; end 
+			  else ns = S2;
 	endcase
 end
 

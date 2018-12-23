@@ -6,9 +6,7 @@ module RAM(clock, Ri_address, Rj_address, W_data, Wi_address, Wj_address, Wen, R
 
 	reg[15:0] word[7:0][7:0]; 
 	
-	always @(clock)begin
-		assign R_data = word[Ri_address];
-	end
+	assign R_data = word[Ri_address];
 	
 	always @(clock)begin
 		if (Wen)
