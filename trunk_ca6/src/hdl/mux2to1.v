@@ -1,4 +1,4 @@
-module mux_2_input #(parameter integer WORD_LENGTH = 8) (in1, in2, sel, out);
+module mux_2_input #(parameter integer WORD_LENGTH = 16) (in1, in2, sel, out);
 	input sel;
 	input[WORD_LENGTH-1:0] in1, in2;
 	output reg [WORD_LENGTH-1:0] out;
