@@ -1,4 +1,4 @@
-`default_nettype none
+// `default_nettype none
 module upsampling_top#(
 	parameter W = 320,
 	parameter H = 240,

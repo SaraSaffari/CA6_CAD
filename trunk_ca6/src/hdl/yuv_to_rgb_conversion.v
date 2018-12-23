@@ -1,4 +1,4 @@
-`default_nettype none
+// `default_nettype none
 module yuv_to_rgb_conversion#(
 	parameter WRITE_ADDR_BASE = 115200,
 	parameter READ_ADDR_BASE = 0,

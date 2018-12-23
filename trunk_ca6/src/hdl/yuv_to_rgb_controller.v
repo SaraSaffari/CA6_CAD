@@ -1,4 +1,4 @@
-`default_nettype none
+// `default_nettype none
 module yuv_to_rgb_controller
 (
 	input wire clk,

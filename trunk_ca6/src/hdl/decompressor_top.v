@@ -1,4 +1,4 @@
-`default_nettype none
+// `default_nettype none
 module decompressor_top#(
 		parameter AW = 18,
 		parameter DW = 16,
