@@ -6,8 +6,10 @@ module MEM32_16#(
 		input wire start,
 		// input wire [AW-1:0] r_addr, // why isn't it used????
 		input reg [DW-1:0] r_data
+		output reg done;
 	);
 
+	reg [DW-1:0] rr_data;
 	reg reset;	
 	reg ienb, jenb, mem32_enb;
 	 // sram_count_enb, 
@@ -29,23 +31,15 @@ module MEM32_16#(
 		.counter(jcounter)
 	);
 
-
-	// counterr #(.size(AW)) sram_counter_module(
-	// 	.clk(clock),
-	// 	.reset(reset),
-	// 	.en(sram_count_enb),
-	// 	.counter(sram_counter)
-	// );
-
 	always @(posedge clock) begin
 		if (mem32_enb)
 		begin
-			r_data = r_data >>> 8;
-			if (r_data < 8'b 0)
-				r_data = 8'b 0;
-			if (r_data > 8'd 255)
-				r_data = 8'd 255;
-			Mem32_16[icounter][jcounter] = r_data;
+			rr_data = r_data >>> 8;
+			if (rr_data < 8'b 0)
+				rr_data = 8'b 0;
+			if (rr_data > 8'd 255)
+				rr_data = 8'd 255;
+			Mem32_16[icounter][jcounter] = rr_data;
 		end
 	end
 
@@ -56,7 +50,7 @@ module MEM32_16#(
 
 parameter [1:0] IDLE = 2'd0, START = 2'd1, S1 = 2'd2, S2 = 2'd3;
 reg [1:0] ps, ns = 2'd0;
-reg done, start_part2, Wen_SRAM;
+reg start_part2, Wen_SRAM;
 
 always @(ps) begin
 	
@@ -65,7 +59,7 @@ always @(ps) begin
 	case(ps)
 		IDLE :reset = 1'b1;
 		START:begin end
-		S1   :begin jenb = 1'b1; if(icount == 3'd7) ienb = 1'b1; end
+		S1   :begin jenb = 1'b1; if(icounter == 3'd7) ienb = 1'b1; end
 		S2   :Wen_SRAM = 1'b1;
 	endcase
 end
@@ -77,7 +71,7 @@ always @(ps) begin
 		START:if(start) ns = S1; 
 			  else ns = START;
 		S1   :ns = S2;
-		S2   :if (icount != 7 || jcount != 7) ns = S1;
+		S2   :if (icounter != 3'd7 || jcounter != 3'd7) ns = S1;
 			  else begin ns = START; done = 1'b1; start_part2 = 1'b1; end
 	endcase
 end

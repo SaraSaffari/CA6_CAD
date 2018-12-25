@@ -1,0 +1,77 @@
+module cROM(clock, Rj_address, R_data);
+	parameter ROW_SIZE = 64;
+
+	input clock;
+	input[2:0] Rj_address;
+	output [103:0] R_data;
+
+	reg signed [12:0] WORD[0:ROW_SIZE-1]; 
+	initial begin 
+			WORD[0]	= 1448;
+			WORD[1] = 1448;
+			WORD[2] = 1448;
+			WORD[3] = 1448;
+			WORD[4] = 1448;
+			WORD[5] = 1448;
+			WORD[6] = 1448;
+			WORD[7] = 1448;
+			WORD[8]	= 2008;
+			WORD[9] = 1702;
+			WORD[10] = 1137;
+			WORD[11] = 399;
+			WORD[12] = -400;
+			WORD[13] = -1138;
+			WORD[14] = -1703;
+			WORD[15] = -2009;
+			WORD[16] = 1892;
+			WORD[17] = 783;
+			WORD[18] = -784;
+			WORD[19] = -1893;
+			WORD[20] = -1893;
+			WORD[21] = -784;
+			WORD[22] = 783;
+			WORD[23] = 1892;
+			WORD[24] = 1702;
+			WORD[25] = -400;
+			WORD[26] = -2009;
+			WORD[27] = -1138;
+			WORD[28] = 1137;
+			WORD[29] = 2008;
+			WORD[30] = 399;
+			WORD[31] = -1703;
+			WORD[32] = 1448;
+			WORD[33] = -1449;
+			WORD[34] = -1449;
+			WORD[35] = 1448;
+			WORD[36] = 1448;
+			WORD[37] = -1449;
+			WORD[38] = -1449;
+			WORD[39] = 1448;
+			WORD[40] = 1137;
+			WORD[41] = -2009;
+			WORD[42] = 399;
+			WORD[43] = 1702;
+			WORD[44] = -1703;
+			WORD[45] = -400;
+			WORD[46] = 2008;
+			WORD[47] = -1138;
+			WORD[48] = 783;
+			WORD[49] = -1893;
+			WORD[50] = 1892;
+			WORD[51] = -784;
+			WORD[52] = -784;
+			WORD[53] = 1892;
+			WORD[54] = -1893;
+			WORD[55] = 783;
+			WORD[56] = 399;
+			WORD[57] = -1138;
+			WORD[58] = 1702;
+			WORD[59] = -2009;
+			WORD[60] = 2008;
+			WORD[61] = -1703;
+			WORD[62] = 1137;
+			WORD[63] = -400;
+	end
+	assign R_data = {WORD[Rj_address], WORD[Rj_address + 8], WORD[Rj_address + 16], WORD[Rj_address + 24], WORD[Rj_address + 32], WORD[Rj_address + 40], WORD[Rj_address + 48], WORD[Rj_address + 56]};
+
+endmodule 

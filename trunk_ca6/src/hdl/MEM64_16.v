@@ -4,15 +4,18 @@ module MEM64_16#(
 	(
 		input wire clock,
 		input wire start,
-		// input wire [AW-1:0] r_addr, 
-		input reg [DW-1:0] r_data
+		input reg [DW-1:0] r_data,
+		input wire [2:0] i_read;
+		input wire [2:0] j_read;
+		output wire [63:0] mem_out;
+		output wire [AW-1:0] r_addr,
+		output reg done
 	);
 
 	reg reset;	
 	reg ienb, jenb, sram_count_enb, mem64_enb;
 	wire [2:0] icounter, jcounter;
-	wire [AW-1:0] sram_counter;
-	reg [DW-1:0][7:0][7:0] Mem64_16 ;
+	reg [DW-1:0] Mem64_16 [0:63];
 	
 	counterr #(.size(3)) icount(
 		.clk(clock),
@@ -28,26 +31,25 @@ module MEM64_16#(
 		.counter(jcounter)
 	);
 
-	counterr #(.size(AW)) sram_counter_module(
+	counterr #(.size(AW)) r_addr_module(
 		.clk(clock),
 		.reset(reset),
 		.en(sram_count_enb),
-		.counter(sram_counter)
+		.counter(r_addr)
 	);
 
 	always @(posedge clock) begin
 		if (mem64_enb)
-			Mem64_16[icounter][jcounter] <= r_data;
+			Mem64_16[icounter << 3 + jcounter] <= r_data;
 	end
 
-
+	assign mem_out = { Mem64_16[i_read], Mem64_16[i_read + 1], Mem64_16[i_read + 2], Mem64_16[i_read + 3], Mem64_16[i_read + 4], Mem64_16[i_read + 5], Mem64_16[i_read + 6], Mem64_16[i_read + 7] };
 
 // Controller:
 
 
 parameter [1:0] IDLE = 2'd0, START = 2'd1, S1 = 2'd2, S2 = 2'd3;
 reg [1:0] ps, ns = 2'd0;
-reg done;
 
 always @(ps) begin
 	
@@ -57,7 +59,7 @@ always @(ps) begin
 		IDLE: reset = 1'b1;
 		START: begin end
 		S1:	sram_count_enb = 1'b1;
-		S2: begin sram_count_enb = 1'b1; mem64_enb = 1'b1; jenb = 1'b1; if (sram_counter[2:0] == 3'd0) ienb = 1'b1; end
+		S2: begin sram_count_enb = 1'b1; mem64_enb = 1'b1; jenb = 1'b1; if (r_addr[2:0] == 3'd0) ienb = 1'b1; end
 	endcase
 end
 
@@ -68,7 +70,7 @@ always @(ps) begin
 		START:if(start) ns = S1; 
 			  else ns = START;
 		S1   :ns = S2;
-		S2   :if (sram_counter[5:0] == 6'd0) begin done = 1'b1; ns = START; end 
+		S2   :if (r_addr[5:0] == 6'd0) begin done = 1'b1; ns = START; end 
 			  else ns = S2;
 	endcase
 end

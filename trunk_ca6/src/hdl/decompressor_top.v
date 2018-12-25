@@ -59,6 +59,7 @@ module decompressor_top#(
 	// ***** signal for upsampling *****
 	// Read-only port
 	wire 			upsample_done;
+	wire 			upsample_start;
 	wire [AW-1:0]	upsample_raddr;
 	wire [DW-1:0]	upsample_rdata;
 	
@@ -67,7 +68,16 @@ module decompressor_top#(
 	wire [DW-1:0]	upsample_wdata;
 	wire 			upsample_wr_enable;
 	
-	
+	// **** signal for dct_inverse ****  
+	// Read-only port
+	wire			dct_inverse_done;
+	wire [AW-1:0] 	dct_inverse_raddr;
+	wire [DW-1:0]   dct_inverse_rdata;
+	// Write-only port
+	wire [AW-1:0]   dct_inverse_waddr;
+	wire [DW-1:0]   dct_inverse_wdata;
+	wire 			dct_inverse_wr_enable;
+
 	// **** signal for decompressor_top ****
 	wire [2:0] sram_sel;
 	
@@ -75,22 +85,33 @@ module decompressor_top#(
 	localparam 	STATE_SRAM_VGA = 0,
 				STATE_CONVERSION = 1,
 				STATE_UPSAMPLE = 2;
+				STATE_DCT_INVERSE = 3;
 				
 	localparam 	SEL_SRAM_VGA = 0,
 				SEL_CONVERSION = 1,
 				SEL_UPSAMPLE = 2;
+				SEl_DCT_INVERSE = 3;
 				
 	// ================================= Internal Logic =============================
 	assign sram_sel = state;
+
 	always@(posedge clk)begin
 		if(reset)begin
-			state <= STATE_UPSAMPLE;
-			sram_vga_start <=0;
+			state <= STATE_DCT_INVERSE;
+			sram_vga_start <= 0;
 		end 
 		else begin
-			sram_vga_start <=0;
+			sram_vga_start <= 0;
 			conversion_start <= 0;
+			upsample_start <= 0;
+			
 			case(state)
+				STATE_DCT_INVERSE:begin
+					if(dct_inverse_done)begin
+						state <= STATE_UPSAMPLE;
+						upsample_start <= 1;
+					end
+				end
 				STATE_UPSAMPLE:begin
 					if(upsample_done)begin
 						state <= STATE_CONVERSION;
@@ -137,6 +158,12 @@ module decompressor_top#(
 				sram_wdata		<= upsample_wdata   	;
 				sram_wr_enable	<= upsample_wr_enable;
 			end
+			SEl_DCT_INVERSE: begin //dct_inverse
+				sram_raddr		<= dct_inverse_raddr	;
+				sram_waddr		<= dct_inverse_waddr   	;
+				sram_wdata		<= dct_inverse_wdata   	;
+				sram_wr_enable	<= dct_inverse_wr_enable;
+			end
 			default:begin
 				sram_raddr		<= 0;
 				sram_waddr		<= 0;
@@ -150,6 +177,7 @@ module decompressor_top#(
 	assign sram_vga_rdata = sram_rdata;
 	assign conversion_rdata = sram_rdata;
 	assign upsample_rdata = sram_rdata;
+	assign dct_inverse_rdata = sram_rdata;
 	// Upsampling
 	upsampling_top#(
 		.WRITE_ADDR_BASE	(UPSAMPLE_WRITE_ADDR_BASE),
@@ -160,7 +188,7 @@ module decompressor_top#(
 		.clk		(clk),
 		.reset		(reset),
 		
-		.start		(start), // 
+		.start		(upsample_start), // 
 		.done		(upsample_done),
 	// *********** SRAM Interface Signals ****************************
 	// Read-only port

@@ -7,7 +7,6 @@ input reset, en, clk;
 always @(posedge clk)
 	begin
 		if(reset)
-<<<<<<< HEAD
 			counter_up <= {size{1'b0}};
 		else 
 			if (en)
