@@ -1,4 +1,4 @@
-module DP(
+module iCDT(
 	clk, start, out_mem64, out_i, out_j);
 
 	input wire clk, start;

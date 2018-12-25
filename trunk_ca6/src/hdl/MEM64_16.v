@@ -4,7 +4,7 @@ module MEM64_16#(
 	(
 		input wire clock,
 		input wire start,
-		input wire [AW-1:0] r_addr, 
+		// input wire [AW-1:0] r_addr, 
 		input reg [DW-1:0] r_data
 	);
 
