@@ -10,7 +10,7 @@ module MEM32_16#(
 		output wire [15:0] w_data,
 		input wire [2:0] in_icounter, in_jcounter,
 		output wire [2:0] icounter, jcounter,
-		output reg done;
+		output reg done
 	);
 
 	reg reset;	
@@ -38,7 +38,7 @@ module MEM32_16#(
 		end
 	end
 
-	assign w_data = Mem32_16[icounter << 3 + jcounter << 1], Mem32_16[icounter << 3 + jcounter << 1 + 1];
+	assign w_data = {Mem32_16[icounter << 3 + jcounter << 1], Mem32_16[icounter << 3 + jcounter << 1 + 1]};
 
 // Controller:
 
@@ -54,7 +54,7 @@ always @(ps) begin
 	case(ps)
 		IDLE :reset = 1'b1;
 		START:begin end
-		S1   :begin jenb = 1'b1; if(jounter == 3'd3) ienb = 1'b1; mem32_enb = 1; end
+		S1   :begin jenb = 1'b1; if(jcounter == 3'd3) ienb = 1'b1; end
 		S2   :begin Wen_SRAM = 1'b1; end 
 	endcase
 end
