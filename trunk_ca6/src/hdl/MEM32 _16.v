@@ -9,10 +9,10 @@ module MEM32_16#(
 		input reg [7:0] r_data,
 		output wire [15:0] w_data,
 		input wire [2:0] in_icounter, in_jcounter,
-		output wire [2:0] icounter, jcounter,
+		output wire [AW-1:0] final_addr,
 		output reg done
 	);
-
+	wire [2:0] icounter, jcounter
 	reg reset;	
 	reg ienb, jenb;
 	reg [7:0] Mem32_16 [63:0];

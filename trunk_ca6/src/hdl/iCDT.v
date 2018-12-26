@@ -10,7 +10,7 @@ module iCDT(
 	wire[127:0] outMux1;
 	wire [103:0] out_C, out_C_prime, outMux2;
 	output wire signed[21:0] result;
-	output wire signed[21:0] final_result;
+	output wire signed[7:0] final_result;
 	output wire signed[21:0] f_result;
 	wire signed[7:0] resMult0, resMult1, resMult2, resMult3, resMult4, resMult5, resMult6, resMult7;
 
