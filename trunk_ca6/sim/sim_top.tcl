@@ -43,6 +43,7 @@
 	add wave -hex -group 	 	{TB}				sim:/$TB/*
 	add wave -hex -group 	 	{top}				sim:/$TB/decompressor_top/*	
 	add wave -hex -group 	 	{SRAM_VGA}			sim:/$TB/decompressor_top/sram_vga_controller/*
+	add wave -hex -group 	 	{DCT_INVERSE}			sim:/$TB/decompressor_top/dctitop/*
 	
 
 	add wave  -group Conversion -group {cntrl}	
