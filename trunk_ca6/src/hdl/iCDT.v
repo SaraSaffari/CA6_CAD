@@ -1,15 +1,17 @@
 module iCDT(
-	clk, start, out_mem64, out_i, out_j, result, done);
+	clk, start, out_mem64, out_i, out_j, final_result, done, Wen_32);
 
 	input wire clk, start;
 	reg en_i, en_j, Wen_temp, Smux1, Smux2, rst;
-	input wire [127:0] out_mem64;
+	input wire [175:0] out_mem64;
 
 	output reg [2:0] out_i, out_j;
-
+	output reg Wen_32;
 	wire[127:0] outMux1;
 	wire [103:0] out_C, out_C_prime, outMux2;
 	output wire signed[21:0] result;
+	output wire signed[21:0] final_result;
+	output wire signed[21:0] f_result;
 	wire signed[7:0] resMult0, resMult1, resMult2, resMult3, resMult4, resMult5, resMult6, resMult7;
 
 	counterr cnt_i (
@@ -25,7 +27,7 @@ module iCDT(
 		.counter(out_j));
 
 	mux_2_input #(.WORD_LENGTH (176)) mux1(
-		.in1({{48{out_mem64[127]}}, out_mem64),   
+		.in1(out_mem64),   
 		.in2(out_temp),
 		.sel(Smux1),
 		.out(outMux1));
@@ -66,11 +68,12 @@ module iCDT(
 	assign resMult7 = outMux1[176:154] * outMux2[103:91];
 
 	assign result = ((resMult7 + resMult6 + resMult5 + resMult4 + resMult3 + resMult2 + resMult1 + resMult0) >>> 8)[21:0];
-
+	assign f_result = ((resMult7 + resMult6 + resMult5 + resMult4 + resMult3 + resMult2 + resMult1 + resMult0) >>> 16)[21:0];
+	assign final_result = f_result > 255 ? 255 : f_result < 0 : 0 ? f_result;
 //controller 
 	parameter [1:0] IDLE = 2'd0, START = 2'd1, S1 = 2'd2, S2 = 2'd3;
 	reg [1:0] ps, ns = 2'd0;
-	reg Wen_32, start_p1, start_p3;
+	reg start_p1, start_p3;
 	output reg done;
 
 	always @(ps) begin

@@ -7,7 +7,7 @@ module MEM64_16#(
 		input reg [DW-1:0] r_data,
 		input wire [2:0] i_read;
 		input wire [2:0] j_read;
-		output wire [63:0] mem_out;
+		output wire [175:0] mem_out;
 		output wire [AW-1:0] r_addr,
 		output reg done
 	);
@@ -43,7 +43,10 @@ module MEM64_16#(
 			Mem64_16[icounter << 3 + jcounter] <= r_data;
 	end
 
-	assign mem_out = { Mem64_16[i_read], Mem64_16[i_read + 1], Mem64_16[i_read + 2], Mem64_16[i_read + 3], Mem64_16[i_read + 4], Mem64_16[i_read + 5], Mem64_16[i_read + 6], Mem64_16[i_read + 7] };
+	assign mem_out = { {{6 Mem64_16[i_read << 3][15], Mem64_16[i_read << 3]}, {{6 Mem64_16[i_read << 3 + 1][15], Mem64_16[i_read << 3 + 1]}, 
+						{{6 Mem64_16[i_read << 3 + 2][15], Mem64_16[i_read << 3 + 2]}, {{6 Mem64_16[i_read << 3 + 3][15], Mem64_16[i_read << 3 + 3]}, 
+						{{6 Mem64_16[i_read << 3 + 4][15], Mem64_16[i_read << 3 + 4]}, {{6 Mem64_16[i_read << 3 + 5][15], Mem64_16[i_read << 3 + 5]}, 
+						{{6 Mem64_16[i_read << 3 + 6][15], Mem64_16[i_read << 3 + 6]}, {{6 Mem64_16[i_read << 3 + 7][15], Mem64_16[i_read << 3 + 7]} };
 
 // Controller:
 
