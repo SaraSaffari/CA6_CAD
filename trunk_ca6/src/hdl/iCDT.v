@@ -67,8 +67,8 @@ module iCDT(
 	assign resMult6 = outMux1[153:132] * outMux2[90:78];
 	assign resMult7 = outMux1[176:154] * outMux2[103:91];
 
-	assign result = ((resMult7 + resMult6 + resMult5 + resMult4 + resMult3 + resMult2 + resMult1 + resMult0) >>> 8)[21:0];
-	assign f_result = ((resMult7 + resMult6 + resMult5 + resMult4 + resMult3 + resMult2 + resMult1 + resMult0) >>> 16)[21:0];
+	assign result = {(resMult7 + resMult6 + resMult5 + resMult4 + resMult3 + resMult2 + resMult1 + resMult0) >>> 8}[21:0];
+	assign f_result = {(resMult7 + resMult6 + resMult5 + resMult4 + resMult3 + resMult2 + resMult1 + resMult0) >>> 16}[21:0];
 	assign final_result = f_result > 255 ? 255 : f_result < 0 ? 0 : f_result;
 //controller 
 	parameter [1:0] IDLE = 2'd0, START = 2'd1, S1 = 2'd2, S2 = 2'd3;
