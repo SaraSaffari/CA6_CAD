@@ -2,7 +2,7 @@ module RAM#(SIZE = 16) (clock, Rj_address, W_data, Wi_address, Wj_address, Wen, 
 	input clock, Wen;
 	input[2:0] Rj_address, Wi_address, Wj_address;
 	input [SIZE-1:0] W_data;
-	output reg [15:0] R_data[7:0];
+	output reg [175:0] R_data;
 
 	reg [SIZE-1:0] word[0:63]; 
 	

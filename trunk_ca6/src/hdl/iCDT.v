@@ -1,26 +1,39 @@
 module iCDT(
-	clk, start, out_mem64, out_i, out_j, final_result, done, Wen_32);
+	clk, start, out_mem64, out_i, out_j, final_result, done, Wen_32, part_3_start);
 
 	input wire clk, start;
 	reg en_i, en_j, Wen_temp, Smux1, Smux2, rst;
 	input wire [175:0] out_mem64;
-
+	wire [175:0] out_temp;
+	output reg part_3_start;
 	output reg [2:0] out_i, out_j;
 	output reg Wen_32;
-	wire[127:0] outMux1;
+	wire[175:0] outMux1;
 	wire [103:0] out_C, out_C_prime, outMux2;
-	output wire signed[21:0] result;
+	wire signed[21:0] result;
 	output wire signed[7:0] final_result;
-	output wire signed[21:0] f_result;
+	wire signed[21:0] f_result;
 	wire signed[7:0] resMult0, resMult1, resMult2, resMult3, resMult4, resMult5, resMult6, resMult7;
 
-	counterr cnt_i (
+
+	// initial begin
+		// while(true) begin
+			always @(posedge clk) begin
+				if (start) begin
+					$stop;
+					$display("fuck you!");
+				end	
+			end
+		// end
+	// end
+			
+	counterr #(.size(3)) cnt_i (
 		.clk(clk),
 		.reset(rst),
 		.en(en_i),
 		.counter(out_i));
 
-	counterr cnt_j (
+	counterr #(.size(3))cnt_j (
 		.clk(clk),
 		.reset(rst),
 		.en(en_j),
@@ -65,7 +78,7 @@ module iCDT(
 	assign resMult4 = outMux1[109:88] * outMux2[64:52];
 	assign resMult5 = outMux1[131:110] * outMux2[77:65];
 	assign resMult6 = outMux1[153:132] * outMux2[90:78];
-	assign resMult7 = outMux1[176:154] * outMux2[103:91];
+	assign resMult7 = outMux1[175:154] * outMux2[103:91];
 
 	assign result = {(resMult7 + resMult6 + resMult5 + resMult4 + resMult3 + resMult2 + resMult1 + resMult0) >>> 8}[21:0];
 	assign f_result = {(resMult7 + resMult6 + resMult5 + resMult4 + resMult3 + resMult2 + resMult1 + resMult0) >>> 16}[21:0];
@@ -78,7 +91,7 @@ module iCDT(
 
 	always @(ps) begin
 		
-		{Smux1, Smux2, en_i, en_j, Wen_temp, Wen_32} = 10'd0;
+		{Smux1, Smux2, en_i, en_j, Wen_temp, Wen_32, part_3_start} = 10'd0;
 
 		case(ps)
 			IDLE: rst = 1'b1;
@@ -87,7 +100,7 @@ module iCDT(
 				if(out_j == 3'd7) en_i = 1'b1;
 				Wen_temp = 1'b1;
 			end
-			S2: begin Smux1 = 1'b1; Smux2 = 1'b1; en_j = 1'b1; 
+			S2: begin Smux1 = 1'b1; Smux2 = 1'b1; en_j = 1'b1; part_3_start = 1; 
 				if(out_j == 3'd7) en_i = 1'b1; 
 				Wen_32 = 1'b1;
 			end

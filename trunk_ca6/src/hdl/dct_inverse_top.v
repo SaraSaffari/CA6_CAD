@@ -1,5 +1,6 @@
 module dct_inverse_top#(
-	)
+	parameter AW = 18,
+	parameter DW = 16)
 	(
 		input wire clk,
 		input wire reset,
@@ -14,7 +15,8 @@ module dct_inverse_top#(
 		output wire [DW-1:0]	wdata,
 		output wire 			wr_enable
 	);
-
+	wire part_3_done;
+	wire part_3_start;
 	wire [7:0] final_result;
 	wire mem64_done;
 	wire icdt_done;
@@ -23,13 +25,13 @@ module dct_inverse_top#(
 	wire [175:0] mem_out;
 	wire Wen_32; 
 
-
+	assign done = (waddr >= 115200 ? 1: 0);
  	MEM64_16#(
 		.AW (18),
 		.DW (16)
 	)mem64(
 		.clock(clk),
-		.start(start),
+		.start(start || icdt_done),
 		.r_data(rdata),
 		.i_read(i),
 		.j_read(),
@@ -39,7 +41,7 @@ module dct_inverse_top#(
 	);
 
 
-	iCDT i(
+	iCDT idct(
 		.clk(clk),
 		.start(mem64_done),
 		.out_mem64(mem_out),
@@ -47,7 +49,8 @@ module dct_inverse_top#(
 		.out_j(j),
 		.final_result(final_result),
 		.done(icdt_done),
-		.Wen_32(Wen_32)
+		.Wen_32(Wen_32),
+		.part_3_start(part_3_start)
 	);
 
 
@@ -56,12 +59,16 @@ module dct_inverse_top#(
 		.DW (16)
 	)mem32(
 		.clock(clk),
-		.start(icdt_done),
+		.start(part_3_start),
 		.mem32_enb (Wen_32),
 		.r_data(final_result),
 		.w_data(wdata),
 		.in_icounter(i),
 		.in_jcounter(j),
 		.final_addr(waddr),
-		.done(done)
+		.done(part_3_done)
 	);
+
+
+
+endmodule

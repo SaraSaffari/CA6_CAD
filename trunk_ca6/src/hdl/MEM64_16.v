@@ -11,7 +11,7 @@ module MEM64_16#(
 		output wire [AW-1:0] r_addr,
 		output reg done
 	);
-
+	
 	reg reset;	
 	reg ienb, jenb, sram_count_enb, mem64_enb;
 	wire [2:0] icounter, jcounter;

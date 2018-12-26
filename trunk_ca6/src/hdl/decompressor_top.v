@@ -59,7 +59,7 @@ module decompressor_top#(
 	// ***** signal for upsampling *****
 	// Read-only port
 	wire 			upsample_done;
-	wire 			upsample_start;
+	reg 			upsample_start;
 	wire [AW-1:0]	upsample_raddr;
 	wire [DW-1:0]	upsample_rdata;
 	
@@ -71,6 +71,7 @@ module decompressor_top#(
 	// **** signal for dct_inverse ****  
 	// Read-only port
 	wire			dct_inverse_done;
+	wire			dct_inverse_start;
 	wire [AW-1:0] 	dct_inverse_raddr;
 	wire [DW-1:0]   dct_inverse_rdata;
 	// Write-only port
@@ -84,12 +85,12 @@ module decompressor_top#(
 	reg [2:0] state;
 	localparam 	STATE_SRAM_VGA = 0,
 				STATE_CONVERSION = 1,
-				STATE_UPSAMPLE = 2;
+				STATE_UPSAMPLE = 2,
 				STATE_DCT_INVERSE = 3;
 				
 	localparam 	SEL_SRAM_VGA = 0,
 				SEL_CONVERSION = 1,
-				SEL_UPSAMPLE = 2;
+				SEL_UPSAMPLE = 2,
 				SEl_DCT_INVERSE = 3;
 				
 	// ================================= Internal Logic =============================
@@ -98,13 +99,13 @@ module decompressor_top#(
 	always@(posedge clk)begin
 		if(reset)begin
 			state <= STATE_DCT_INVERSE;
-			sram_vga_start <= 0;
+			// dct_inverse_start <= 0;
 		end 
 		else begin
 			sram_vga_start <= 0;
 			conversion_start <= 0;
 			upsample_start <= 0;
-			
+
 			case(state)
 				STATE_DCT_INVERSE:begin
 					if(dct_inverse_done)begin
@@ -253,4 +254,17 @@ module decompressor_top#(
 		.b			(b			)
 	);
 	
+dct_inverse_top dctitop
+	(
+		.clk(clk),
+		.reset(reset),
+		.start(start), // 
+		.done(dct_inverse_done),
+		.raddr(dct_inverse_raddr),
+		.rdata(dct_inverse_rdata),
+		.waddr(dct_inverse_waddr),
+		.wdata(dct_inverse_wdata),
+		.wr_enable(dct_inverse_wr_enable)
+	);
+
 endmodule
